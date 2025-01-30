@@ -12,9 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { signOutUser } from "@/lib/actions/user.action";
 
-type Props = {};
-
-export default async function UserButton({}: Props) {
+export default async function UserButton() {
   const session = await auth();
 
   if (!session) {
