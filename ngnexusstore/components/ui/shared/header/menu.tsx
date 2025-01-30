@@ -22,7 +22,7 @@ export default function Menu() {
           </Link>
         </Button>
         <Button asChild>
-          <Link href={"/cart"}>
+          <Link href={"/sign-in"}>
             <UserIcon /> sign-in
           </Link>
         </Button>
@@ -42,7 +42,7 @@ export default function Menu() {
                 </Link>
               </Button>
               <Button asChild>
-                <Link href={"/cart"}>
+                <Link href={"/sign-in"}>
                   <UserIcon /> sign-in
                 </Link>
               </Button>
