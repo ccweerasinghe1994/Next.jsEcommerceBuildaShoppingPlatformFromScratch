@@ -2,9 +2,10 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 import ProductPrice from "./product-price";
+import { TProduct } from "@/types";
 
 type Props = {
-  product: any;
+  product: TProduct;
 };
 
 export default function ProductCard({ product }: Props) {
