@@ -1,10 +1,11 @@
 "use server";
 
 import { signIn, signOut } from "@/auth";
-import { signInUserSchema, signUpUserSchema } from "../validations/validators";
-import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { prisma } from "@/db/prisma";
 import { hashSync } from "bcrypt-ts-edge";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
+import { signInUserSchema, signUpUserSchema } from "../validations/validators";
+import { formatErrors } from "../utils";
 
 // sign in the user with credentials
 
@@ -75,7 +76,7 @@ export async function signUpUser(
     }
 
     return {
-      message: "User was not registered ",
+      message: formatErrors(error),
       success: false,
     };
   }

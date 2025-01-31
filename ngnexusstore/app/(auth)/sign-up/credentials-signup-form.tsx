@@ -40,7 +40,6 @@ export default function CredentialsSignUpForm() {
             id="name"
             name="name"
             type="text"
-            required
             autoComplete="email"
             defaultValue={signUpDefaultValues.email}
           />
@@ -50,8 +49,7 @@ export default function CredentialsSignUpForm() {
           <Input
             id="email"
             name="email"
-            type="email"
-            required
+            type="text"
             autoComplete="email"
             defaultValue={signUpDefaultValues.email}
           />
