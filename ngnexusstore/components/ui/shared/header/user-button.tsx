@@ -42,7 +42,7 @@ export default async function UserButton() {
             </Button>
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56" forceMount>
+        <DropdownMenuContent className="w-64" forceMount>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
               <div className="text-sm font-medium leading-none">
