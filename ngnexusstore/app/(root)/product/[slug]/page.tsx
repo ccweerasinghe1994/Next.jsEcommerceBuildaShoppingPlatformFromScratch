@@ -6,6 +6,7 @@ import ProductPrice from "@/components/ui/shared/product/product-price";
 import { getProductBySlug } from "@/lib/actions/product.actions";
 import { notFound } from "next/navigation";
 import React from "react";
+import AddToCart from "../../cart/add-to-cart";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -67,7 +68,16 @@ export default async function ProductDetailsPage({ params }: Props) {
                   )}
                 </div>
                 {product.stock > 0 && (
-                  <Button className="w-full">Add To Cart</Button>
+                  <AddToCart
+                    cartItem={{
+                      name: product.name,
+                      image: product.images[0],
+                      price: product.price,
+                      productId: product.id,
+                      qty: 1,
+                      slug: product.slug,
+                    }}
+                  />
                 )}
               </CardContent>
             </Card>
