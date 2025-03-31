@@ -1,6 +1,6 @@
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
-import { ZodError } from "zod";
+import {type ClassValue, clsx} from "clsx";
+import {twMerge} from "tailwind-merge";
+import {ZodError} from "zod";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -40,4 +40,23 @@ export function formatErrors(error: any) {
       ? error.message
       : JSON.stringify(error.message);
   }
+}
+
+
+// round number to two decimal points
+
+export function round2(value:number|string):number {
+
+  if (typeof value === "number"){
+    return Math.round((value+Number.EPSILON)*100)/100;
+  }
+
+  else if (typeof value === "string"){
+    return Math.round((Number(value)+Number.EPSILON)*100)/100;
+  }
+
+  else {
+    throw new Error("value is not a number or string")
+  }
+  
 }
