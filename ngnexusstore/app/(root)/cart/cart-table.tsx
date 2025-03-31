@@ -1,7 +1,6 @@
 import React from "react";
 
-type Props = {};
 
-export default function CartTable({}: Props) {
+export default function CartTable() {
   return <div>CartTable</div>;
 }
