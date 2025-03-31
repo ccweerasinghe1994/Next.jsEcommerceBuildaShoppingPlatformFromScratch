@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { formatNumberWithTwoDecimalPoints } from "../utils";
+
 const currency = z
   .string()
   .refine(
@@ -61,8 +62,8 @@ export const insertCartSchema = z.object({
   items: z.array(cartItemSchema),
   itemsPrice: currency,
   totalPrice: currency,
-  shipping: currency,
+  shippingPrice: currency,
   taxPrice: currency,
-  sessionCartId: z.string({ required_error: "session cart id is required" }),
+  sessionCartId: z.string().min(1, "session cart id is required"),
   userId: z.string().optional().nullable(),
 });
