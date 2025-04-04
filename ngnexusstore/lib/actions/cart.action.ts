@@ -1,12 +1,12 @@
 "use server";
 
-import {TCart, TCartItem} from "@/types";
-import {cookies} from "next/headers";
-import {formatErrors, prismaObjectToPlainObject, round2} from "@/lib/utils";
-import {auth} from "@/auth";
-import {prisma} from "@/db/prisma";
-import {cartItemSchema, insertCartSchema} from "@/lib/validations/validators";
-import {revalidatePath} from "next/cache";
+import { TCartComplete, TCartItem } from "@/types";
+import { cookies } from "next/headers";
+import { formatErrors, prismaObjectToPlainObject, round2 } from "@/lib/utils";
+import { auth } from "@/auth";
+import { prisma } from "@/db/prisma";
+import { cartItemSchema, insertCartSchema } from "@/lib/validations/validators";
+import { revalidatePath } from "next/cache";
 
 type TResponse = {
   success: boolean;
@@ -43,7 +43,7 @@ export async function addItemToCart(cartitem: TCartItem): Promise<TResponse> {
   try {
     // check if session cart id exists
     const sessionCartId = (await cookies()).get("sessionCartId")?.value;
-    console.log("Session Cart Id",sessionCartId);
+    console.log("Session Cart Id", sessionCartId);
     if (!sessionCartId) {
       throw new Error("Session cart id not found");
     }
@@ -82,6 +82,11 @@ export async function addItemToCart(cartitem: TCartItem): Promise<TResponse> {
 
       //   revalidate the product page
       revalidatePath(`/product/${productFromDatabase.slug}`);
+
+      return {
+        message: `${productFromDatabase.name} added to cart`,
+        success: true,
+      };
     } else {
       // check if the item already exists in the cart
       const itemExists = cart.items.find(
@@ -106,7 +111,7 @@ export async function addItemToCart(cartitem: TCartItem): Promise<TResponse> {
       }
 
       // save to the database
-      prisma.cart.update({
+      await prisma.cart.update({
         where: {
           id: cart.id,
         },
@@ -116,11 +121,8 @@ export async function addItemToCart(cartitem: TCartItem): Promise<TResponse> {
         },
       });
       revalidatePath(`/product/${productFromDatabase.slug}`);
-
       return {
-        message: `${productFromDatabase.name} ${
-          itemExists ? "updated in" : "added to"
-        } cart`,
+        message: `${productFromDatabase.name} updated in cart`,
         success: true,
       };
     }
@@ -132,7 +134,7 @@ export async function addItemToCart(cartitem: TCartItem): Promise<TResponse> {
   }
 }
 
-export async function getCartItems(): Promise<TCart | undefined> {
+export async function getCartItems(): Promise<TCartComplete | undefined> {
   //  find the session cookie id
   const allCookies = await cookies();
   const cartSessionId = allCookies.get("sessionCartId")?.value;
