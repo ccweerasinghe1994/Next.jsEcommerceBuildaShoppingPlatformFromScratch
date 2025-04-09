@@ -53,7 +53,7 @@ export async function addItemToCart(cartitem: TCartItem): Promise<TResponse> {
     const userId = session?.user?.id;
 
     // get the cart
-    const cart = await getCartItems();
+    const cart = await getMyCart();
 
     // validate the cart item
     const validatedCartItem = cartItemSchema.parse(cartitem);
@@ -134,7 +134,7 @@ export async function addItemToCart(cartitem: TCartItem): Promise<TResponse> {
   }
 }
 
-export async function getCartItems(): Promise<TCartComplete | undefined> {
+export async function getMyCart(): Promise<TCartComplete | undefined> {
   //  find the session cookie id
   const allCookies = await cookies();
   const cartSessionId = allCookies.get("sessionCartId")?.value;
@@ -161,4 +161,66 @@ export async function getCartItems(): Promise<TCartComplete | undefined> {
     shippingPrice: cart.shippingPrice.toString(),
     totalPrice: cart.totalPrice.toString(),
   });
+}
+
+export async function removeItemFromCart(productId: string) {
+  try {
+    const sessionCartId = (await cookies()).get("sessionCartId")?.value;
+    if (!sessionCartId) {
+      throw new Error("Session cart id not found");
+    }
+
+    const product = await prisma.product.findFirst({
+      where: {
+        id: productId,
+      },
+    });
+
+    if (!product) {
+      throw new Error("Product not found");
+    }
+
+    const cart = await getMyCart();
+
+    if (!cart) {
+      throw new Error("Cart not found");
+    }
+
+    const exist = cart.items.find((x) => x.productId === productId);
+    if (!exist) {
+      throw new Error("Item not found in cart");
+    }
+    // check if the quantity is greater than 1
+    if (exist.qty === 1) {
+      // remove the item from the cart
+      cart.items = cart.items.filter((x) => x.productId !== productId);
+    } else {
+      // update the cart item quantity
+      exist.qty -= 1;
+      cart.items = cart.items.map((x) =>
+        x.productId === productId ? exist : x
+      );
+    }
+
+    // save to the database
+    await prisma.cart.update({
+      where: {
+        id: cart.id,
+      },
+      data: {
+        items: cart.items,
+        ...calculatePrice(cart.items),
+      },
+    });
+    revalidatePath(`/product/${product.slug}`);
+    return {
+      message: `${product.name} updated in cart`,
+      success: true,
+    };
+  } catch (error) {
+    return {
+      message: formatErrors(error),
+      success: false,
+    };
+  }
 }
