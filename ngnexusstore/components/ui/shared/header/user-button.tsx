@@ -35,7 +35,7 @@ export default async function UserButton() {
         <DropdownMenuTrigger asChild>
           <div className="flex items-center">
             <Button
-              className="bg-gray-200 rounded-full w-8 h-8 flex justify-center items-center relative ml-2"
+              className="dark:bg-gray-400 bg-gray-200 rounded-full w-8 h-8 flex justify-center items-center relative ml-2"
               variant={"ghost"}
             >
               {firstCharacter}

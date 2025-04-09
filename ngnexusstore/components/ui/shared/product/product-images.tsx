@@ -33,7 +33,7 @@ export default function ProductImages({ images }: Props) {
             key={index}
             onClick={() => setCurrentIndex(index)}
           >
-            <Image src={image} alt="product image" width={100} height={100} />
+            <Image src={image} alt="product image" width={100} height={100} priority={true}/>
           </div>
         ))}
       </div>

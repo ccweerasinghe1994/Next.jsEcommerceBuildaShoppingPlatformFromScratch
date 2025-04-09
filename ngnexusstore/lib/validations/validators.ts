@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { formatNumberWithTwoDecimalPoints } from "../utils";
+
 const currency = z
   .string()
   .refine(
@@ -45,3 +46,24 @@ export const signUpUserSchema = z
     message: "Passwords don't match",
     path: ["confirmPassword"],
   });
+
+// product cart schema
+
+export const cartItemSchema = z.object({
+  productId: z.string({ required_error: "product id is required" }),
+  name: z.string({ required_error: "name is required" }),
+  slug: z.string({ required_error: "slug is required" }),
+  qty: z.number().int().nonnegative("quantity must be a positive number"),
+  image: z.string({ required_error: "image is required" }),
+  price: currency,
+});
+
+export const insertCartSchema = z.object({
+  items: z.array(cartItemSchema),
+  itemsPrice: currency,
+  totalPrice: currency,
+  shippingPrice: currency,
+  taxPrice: currency,
+  sessionCartId: z.string().min(1, "session cart id is required"),
+  userId: z.string().optional().nullable(),
+});
