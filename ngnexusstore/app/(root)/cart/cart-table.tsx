@@ -16,8 +16,11 @@ import {
 } from "@/components/ui/table";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Loader, MinusIcon, PlusIcon } from "lucide-react";
+import { ArrowRightIcon, Loader, MinusIcon, PlusIcon } from "lucide-react";
 import { addItemToCart, removeItemFromCart } from "@/lib/actions/cart.action";
+import { Card, CardContent } from "@/components/ui/card";
+import { formatCurrency } from "@/lib/utils";
+
 type CartTableProps = {
   cart?: TCart;
 };
@@ -118,6 +121,30 @@ export default function CartTable({ cart }: CartTableProps) {
               </TableBody>
             </Table>
           </div>
+          <Card>
+            <CardContent className="p-4 gap-4">
+              <div className="pb-3 text-xl">
+                SubTotal ({cart.items.reduce((a, b) => a + b.qty, 0)} items):
+                <span className="font-bold">
+                  {formatCurrency(cart.itemsPrice)}
+                </span>
+                <Button
+                  disabled={isPending}
+                  onClick={() =>
+                    startTransition(() => router.push("/shipping-address"))
+                  }
+                  className="w-full"
+                >
+                  {isPending ? (
+                    <Loader className="h-4 w4 animate-spin" />
+                  ) : (
+                    <ArrowRightIcon />
+                  )}
+                  proceed to checkout
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       )}
     </>

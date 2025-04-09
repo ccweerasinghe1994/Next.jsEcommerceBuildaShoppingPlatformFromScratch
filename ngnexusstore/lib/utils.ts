@@ -105,3 +105,21 @@ export function round2(value: number | string): number {
     throw new Error("value is not a number or string");
   }
 }
+
+const CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+
+//  fomat currency using above formatter
+export function formatCurrency(value: number | string | null): string {
+  if (typeof value === "number") {
+    return CURRENCY_FORMATTER.format(value);
+  } else if (typeof value === "string") {
+    return CURRENCY_FORMATTER.format(Number(value));
+  } else {
+    return "NaN";
+  }
+}
