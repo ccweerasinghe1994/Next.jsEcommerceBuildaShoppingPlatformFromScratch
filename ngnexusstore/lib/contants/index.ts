@@ -26,11 +26,9 @@ export const signUpDefaultValues = {
 };
 
 export const shippingAddressDefaultValues: TShippingAddress = {
-  fullName: "jhon doe",
-  streetAddress: "123 main street",
-  city: "colombo",
-  postalCode: "11856",
-  country: "sri lanka",
-  lat: 6.9271,
-  lng: 79.9612,
+  fullName: "",
+  streetAddress: "",
+  city: "",
+  postalCode: "",
+  country: "",
 };

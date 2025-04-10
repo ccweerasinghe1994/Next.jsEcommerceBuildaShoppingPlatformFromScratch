@@ -3,8 +3,9 @@ import { getMyCart } from "@/lib/actions/cart.action";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import type { TShippingAddress } from "@/types";
-import { get } from "http";
 import { getUserById } from "@/lib/actions/user.action";
+import ShippingAddressForm from "./shipping-address-form";
+import CheckoutSteps from "@/components/ui/shared/checkout-steps";
 
 export const metadata: Metadata = {
   title: "Shipping Address",
@@ -28,9 +29,9 @@ export default async function ShippingAddress() {
   const user = await getUserById(userId);
 
   return (
-    <div>
-      <h1>Shipping Address</h1>
-      <p>This is the shipping address page.</p>
-    </div>
+    <>
+      <CheckoutSteps />
+      <ShippingAddressForm address={user.address as TShippingAddress} />
+    </>
   );
 }
