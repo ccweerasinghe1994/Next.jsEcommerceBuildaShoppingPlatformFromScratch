@@ -81,3 +81,21 @@ export async function signUpUser(
     };
   }
 }
+
+// get user by id
+export async function getUserById(userId: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    if (!user) {
+      throw new Error("User not found");
+    }
+    return user;
+  } catch (error) {
+    console.error("Error getting user by id", error);
+    throw new Error("Error getting user by id");
+  }
+}
