@@ -1,3 +1,5 @@
+import { TShippingAddress } from "@/types";
+
 export const APP_NAME =
   process.env.NEXT_PUBLIC_APP_NAME || "CGNEXUS E-COMMERCE";
 
@@ -21,4 +23,14 @@ export const signUpDefaultValues = {
   email: "",
   password: "",
   confirmPassword: "",
+};
+
+export const shippingAddressDefaultValues: TShippingAddress = {
+  fullName: "jhon doe",
+  streetAddress: "123 main street",
+  city: "colombo",
+  postalCode: "11856",
+  country: "sri lanka",
+  lat: 6.9271,
+  lng: 79.9612,
 };
