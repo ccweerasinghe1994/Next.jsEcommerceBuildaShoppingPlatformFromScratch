@@ -1,0 +1,96 @@
+{
+  "patterns": {
+    "components": {
+      "prefix": ["component", "ui"],
+      "paths": ["components/**/*.tsx"],
+      "description": "UI components follow these conventions:",
+      "guidelines": [
+        "Use 'use client' directive for client components",
+        "Props interface should be named 'Props'",
+        "Use shadcn/ui components when available",
+        "Follow atomic design principles",
+        "Implement proper loading states",
+        "Handle error states gracefully",
+        "Use Tailwind CSS for styling"
+      ]
+    },
+    "actions": {
+      "prefix": ["action", "server"],
+      "paths": ["lib/actions/*.ts"],
+      "description": "Server actions follow these conventions:",
+      "guidelines": [
+        "Use Prisma for database operations",
+        "Implement proper error handling",
+        "Return TResponse type for responses",
+        "Validate inputs with Zod schemas",
+        "Use revalidatePath for cache invalidation",
+        "Handle both authenticated and unauthenticated states"
+      ]
+    },
+    "auth": {
+      "prefix": ["auth", "authentication"],
+      "paths": ["app/api/auth/**/*.ts", "auth.ts"],
+      "description": "Authentication related code follows these conventions:",
+      "guidelines": [
+        "Use NextAuth.js for authentication",
+        "Implement proper session handling",
+        "Use Prisma adapter for auth",
+        "Handle both credentials and OAuth providers",
+        "Implement proper middleware protection"
+      ]
+    },
+    "pages": {
+      "prefix": ["page", "route"],
+      "paths": ["app/**/*.tsx"],
+      "description": "Page components follow these conventions:",
+      "guidelines": [
+        "Use proper metadata",
+        "Implement loading states",
+        "Handle not-found scenarios",
+        "Use proper error boundaries",
+        "Follow Next.js App Router conventions",
+        "Implement proper SEO practices"
+      ]
+    },
+    "database": {
+      "prefix": ["db", "prisma"],
+      "paths": ["prisma/**/*.prisma"],
+      "description": "Database schema follows these conventions:",
+      "guidelines": [
+        "Use proper field types",
+        "Implement proper relations",
+        "Use appropriate indexes",
+        "Follow naming conventions",
+        "Include proper constraints"
+      ]
+    },
+    "types": {
+      "prefix": ["type", "interface"],
+      "paths": ["types/**/*.ts"],
+      "description": "TypeScript types follow these conventions:",
+      "guidelines": [
+        "Use proper type exports",
+        "Implement proper generics when needed",
+        "Use Zod for runtime validation",
+        "Follow strict typing practices",
+        "Use proper documentation comments"
+      ]
+    }
+  },
+  "suggestions": {
+    "imports": [
+      "import { type } from '@/types'",
+      "import { action } from '@/lib/actions'",
+      "import { component } from '@/components/ui'"
+    ],
+    "bestPractices": [
+      "Use server components by default",
+      "Add 'use client' only when needed",
+      "Implement proper error handling",
+      "Use proper TypeScript types",
+      "Follow Next.js App Router conventions",
+      "Use proper loading states",
+      "Implement proper SEO practices"
+    ]
+  }
+}

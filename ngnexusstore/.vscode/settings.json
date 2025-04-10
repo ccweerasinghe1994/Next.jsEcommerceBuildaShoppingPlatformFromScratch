@@ -1,3 +1,21 @@
 {
-    "typescript.tsdk": "node_modules\\typescript\\lib"
+    "typescript.tsdk": "node_modules\\typescript\\lib",
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": false
+    },
+    "github.copilot.editor.enableAutoCompletions": true,
+    "github.copilot.editor.enableCodeActions": true,
+    "github.copilot.chat.suggestions.enabled": true,
+    "github.copilot.chat.testGeneration.instructions": [
+        {
+            "file": ".copilot-test-instructions.md"
+        }
+    ],
+    "github.copilot.chat.pullRequestDescriptionGeneration.instructions": [
+        {
+            "file": ".copilot-pull-request-description-instructions.md"
+        }
+    ]
 }
