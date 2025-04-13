@@ -68,7 +68,7 @@ const config: NextAuthConfig = {
 
       return session;
     },
-    async jwt({ token, user }: any) {
+    async jwt({ token, user, trigger, session }: any) {
       if (user) {
         token.role = user.role;
 
@@ -87,9 +87,54 @@ const config: NextAuthConfig = {
         }
       }
 
+      if (trigger === "signIn" || trigger === "signUp") {
+        const cookie = await cookies();
+        const sessionCartId = cookie.get("sessionCartId")?.value;
+        if (sessionCartId) {
+          const sessionCart = await prisma.cart.findFirst({
+            where: {
+              sessionCartId: sessionCartId,
+            },
+          });
+
+          if (sessionCart) {
+            await prisma.cart.deleteMany({
+              where: {
+                userId: user.id,
+              },
+            });
+            await prisma.cart.update({
+              where: {
+                id: sessionCart.id,
+              },
+              data: {
+                userId: user.id,
+              },
+            });
+          }
+        }
+      }
+
       return token;
     },
     authorized({ request, auth }: any) {
+      // Array of regex patterns of paths we want to protect
+      const protectedPaths = [
+        /^\/shipping-address/,
+        /^\/payment-method/,
+        /^\/place-order/,
+        /^\/profile/,
+        /^\/user\/(.*)/,
+        /^\/order\/(.*)/,
+        /^\/admin/,
+      ];
+
+      const { pathname } = request.nextUrl;
+
+      if (!auth && protectedPaths.some((pattern) => pattern.test(pathname))) {
+        return false;
+      }
+
       // check for session cart cookie
       if (!request.cookies.get("sessionCartId")) {
         // generate sessionCartId
